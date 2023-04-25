@@ -222,23 +222,23 @@ plot(gpt_graph, vertex.size = 7, vertex.label = NA,
      #      Running this command multiple times will produce slightly different networks,
      #      based on the layout algorithm used. You can swap algorithms by uncommenting one of the
      #      lines below. Which algorithm works best often depends on the data
-     # layout = layout_nicely(gpt_graph)      ## Automated layout recommendation from iGraph
+    #layout = layout_nicely(gpt_graph)      ## Automated layout recommendation from iGraph
      # layout = layout_with_fr(gpt_graph)    ## Fruchterman-Reingold algorithm
-     # layout = layout_with_dh(gpt_graph)    ## Davidson and Harel algorithm
+      layout = layout_with_dh(gpt_graph)    ## Davidson and Harel algorithm
      # layout = layout_with_drl(gpt_graph)   ## Force-directed algorithm
      # layout = layout_with_kk(gpt_graph)    ## Spring algorithm
      # layout = layout_with_lgl(gpt_graph)   ## Large graph layout
 )
 
 ## plot the largest component of the AI network
-plot(giantGraph_gpt, vertex.size = 7, vertex.label = NA,
+plot(giantGraph_hmn, vertex.size = 7, vertex.label = NA,
      # Settings for layouts:
      #      Running this command multiple times will produce slightly different networks,
      #      based on the layout algorithm used. You can swap algorithms by uncommenting one of the
      #      lines below. Which algorithm works best often depends on the data
-     # layout = layout_nicely(giantGraph_gpt)      ## Automated layout recommendation from iGraph
+     #layout = layout_nicely(giantGraph_gpt)      ## Automated layout recommendation from iGraph
      # layout = layout_with_fr(giantGraph_gpt)    ## Fruchterman-Reingold algorithm
-     # layout = layout_with_dh(giantGraph_gpt)    ## Davidson and Harel algorithm
+      layout = layout_with_dh(giantGraph_gpt)    ## Davidson and Harel algorithm
      # layout = layout_with_drl(giantGraph_gpt)   ## Force-directed algorithm
      # layout = layout_with_kk(giantGraph_gpt)    ## Spring algorithm
      # layout = layout_with_lgl(giantGraph_gpt)   ## Large graph layout
@@ -252,7 +252,7 @@ plot(giantGraph_gpt, vertex.size = 7, vertex.label = NA,
 # plot the combined network with node color representing which text the word belongs to: collective, artificial, or both
 data_graph |>
   as_tbl_graph() |>
-  ggraph(layout = 'fr')+
+  ggraph(layout = 'dh')+
   geom_edge_link2(aes())+
   geom_node_label(aes(label = name,colour=source))+ # color nodes by source text
   theme_void()
@@ -261,7 +261,7 @@ data_graph |>
 # plot the artificial intelligence semantic network with node color representing topic
 gpt_graph |>
   as_tbl_graph() |>
-  ggraph(layout = 'fr')+
+  ggraph(layout = 'dh')+
   geom_edge_link2(aes())+
   geom_node_label(aes(label = name,colour=topic))+ # color nodes by topic
   theme_void()
@@ -269,7 +269,21 @@ gpt_graph |>
 # plot the collective intelligence semantic network with node color representing topic
 hmn_graph |>
   as_tbl_graph() |>
-  ggraph(layout = 'fr')+
+  ggraph(layout = 'nicely')+
+  geom_edge_link2(aes())+
+  geom_node_label(aes(label = name,colour=topic))+
+  theme_void()
+
+giantGraph_hmn |>
+  as_tbl_graph() |>
+  ggraph(layout = 'nicely')+
+  geom_edge_link2(aes())+
+  geom_node_label(aes(label = name,colour=topic))+
+  theme_void()
+
+hmn_graph |>
+  as_tbl_graph() |>
+  ggraph(layout = 'dh')+
   geom_edge_link2(aes())+
   geom_node_label(aes(label = name,colour=topic))+
   theme_void()
